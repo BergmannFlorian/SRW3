@@ -1,10 +1,5 @@
 ### Config VM
 
-
-
-
-
-
 Langague : english-US
 Time format : US
 Keyboard : Swiss French
@@ -24,3 +19,9 @@ And install
 ### Config sites
 
 Go on Internet Information Services (IIS) Manager
+Disabled all active site
+"WIN-XXX..." -> "Sites" -> "Default Web Site" -> right clic -> "Manage" -> "Stop"
+Add new default document iis.html
+Next go on "C:\iis_www" and add new file iis.html and paste "MON Site IIS" into
+
+### Install PHP

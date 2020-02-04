@@ -49,3 +49,13 @@ Disabled all and Enable "Windows Authentification"
 
 ### FTP
 
+First, install FTP server roles
+On confirmation page, active "Restart the dest..." and finish installation
+Close and reopen Internet Information Services (IIS) Manager and add FTP site
+Field form with "FTP IIS" fot the name and site folder "C:\iis_www" for physical path
+Check you are the same information
+Now go on Internet Information Services (IIS) Manager -> FTP -> FTP Firewall Support
+Set Data Channel Port Range by : 9990-10000
+Set Externel IP Address by the ip of the server
+Apply change and restart FTPSVC Services on Task Manager
+

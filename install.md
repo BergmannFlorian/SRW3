@@ -1,61 +1,86 @@
-### Config VM
+## Config VM
 
-Langague : english-US
-Time format : US
-Keyboard : Swiss French
-Windows Key :  WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY
-System : Windows server 2016 (Desktop Experience)
-Installation : Custom
+Operating system : **Windows Server 2016**  
+Virtual machine name : **SRW3**  
+Live other param by default  
+In customize hardware, remove **sound card** and **printer**
 
-### Install IIS 10
+## Config Windows
 
-On dashboard, choose "Add roles and features"
-Select server roles "Web Server (IIS)"
-No change Features
-On Role Services, choose in Application Developement
-    screen 3
-And install
+System : **Windows Server 2016 V1607 (OS Build 14393.447)**  
+Langage : **english-US**  
+Time format : **US**  
+Keyboard : **Swiss French**  
+Windows Key :  **WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY**  
+System : **Windows server 2016 (Desktop Experience)**  
+Installation : **Custom**
 
-### Config sites
+## Install IIS 10
 
-Go on Internet Information Services (IIS) Manager
-Disabled all active site
-"WIN-XXX..." -> "Sites" -> "Default Web Site" -> right clic -> "Manage" -> "Stop"
-Add new default document iis.html
-Next go on "C:\iis_www" and add new file iis.html and paste "MON Site IIS" into
+On dashboard, choose **Add roles and features**  
+Select server roles **Web Server (IIS)**  
+No change Features  
+On Role Services, choose in Application Developement  
+![Services List](i mg/IIS/Screenshot_1.png)  
+Finish installation
 
-### Install PHP
+## Config IIS 10
 
-Create folder "PHP7.4.2" in "C:\"
-Go on "https://windows.php.net/download/" and download PHP 7.4.2 in zip format
-Extract content of zip in "C:\PHP7.4.2\" folder
-Go on "https://aka.ms/vs/16/release/vc_redist.x64.exe" and execute the exe file
-Next go back on Internet Information Services (IIS) Manager -> "WIN-XXX..." and choose "Handler Mappings"
-Add new mapping
-Fill content with the same configuration
-Restart site
+Go on **Internet Information Services (IIS) Manager**
+![IIS console](i mg/IIS/Screenshot_2.png)  
+Disabled default site : **WIN-XXX...** -> **Sites** -> **Default Web Site** -> right clic -> **Manage** -> **Stop**  
+Add new site : **WIN-XXX...** -> **Sites** -> right clic -> **Add Website**
+Fill like this :
+![Config site](i mg/IIS/Screenshot_3.png)  
+Clic on the new site **Site IIS** -> **Default Document** and add new default document **iis.html**  
+Next go on **C:\iis_www** and add new file **iis.html** and paste `MON Site IIS` into  
 
-### Add Auth
+## Install PHP
 
-Define static ip adress
-Install Server Roles "Active Directory Domain Services"
-Show warning message et clic on "Promote this ..."
-Add a new forest "srw3.local"
-Check form is same and add Pa$$w0rd password
-After just go of end of config and finish installation
-Add "Windows Authentification" on Manage -> Add Roles and Features
-Next Go on Internet Information Services (IIS) Manager -> "WIN-XXXX..." and select "Authentification" on IIS
-Disabled all and Enable "Windows Authentification"
+Create folder **PHP7.4.2** in **C:\\**  
+Go on **https://windows.php.net/download/** and download PHP 7.4.2 in zip format  
+Extract content of zip in **C:\PHP7.4.2\\** folder  
+Go on **https://aka.ms/vs/16/release/vc_redist.x64.exe** and execute the exe file  
+Next go back on Internet Information Services (IIS) Manager -> **WIN-XXX...** and choose **Handler Mappings**  
+Add new mapping  
+![add mapping](i mg/php/Screenshot_1.png)
+Fill content with the same configuration  
+![add mapping](i mg/php/Screenshot_2.png)
+Restart site : **WIN-XXX...** -> **Sites** -> **Site IIS** -> right clic -> **Manage** -> **Restart**  
+Next go on **C:\iis_www** and add new file **index.php** and paste `<?php phpinfo() ?>` into  
 
-### FTP
+## Add Auth
 
-First, install FTP server roles
-On confirmation page, active "Restart the dest..." and finish installation
-Close and reopen Internet Information Services (IIS) Manager and add FTP site
-Field form with "FTP IIS" fot the name and site folder "C:\iis_www" for physical path
-Check you are the same information
-Now go on Internet Information Services (IIS) Manager -> FTP -> FTP Firewall Support
-Set Data Channel Port Range by : 9990-10000
-Set Externel IP Address by the ip of the server
-Apply change and restart FTPSVC Services on Task Manager
+Define static ip adress  
+Install Server Roles **Active Directory Domain Services**  
+Show warning message et clic on **Promote this ...**  
+Add a new forest **srw3.local**  
+Check form is same and add Pa$$w0rd password  
+After just go of end of config and finish installation  
+Add **Windows Authentification** on Manage -> Add Roles and Features  
+Next Go on Internet Information Services (IIS) Manager -> **WIN-XXXX...** and select **Authentification** on IIS  
+Disabled all and Enable **Windows Authentification**
 
+## FTP
+
+First, install FTP server roles  
+On confirmation page, active **Restart the dest...** and finish installation  
+Close and reopen Internet Information Services (IIS) Manager and add FTP site  
+Field form with **FTP IIS** fot the name and site folder **C:\iis_www** for physical path  
+Check you are the same information  
+Now go on Internet Information Services (IIS) Manager -> FTP -> FTP Firewall Support  
+Set Data Channel Port Range by : 9990-10000  
+Set Externel IP Address by the ip of the server  
+Apply change and restart FTPSVC Services on Task Manager  
+
+## Backup
+
+Add new feature **Windows Server Backup**  
+On confirmation page, active **Restart the dest...** and finish installation  
+
+Next shut down the VM and add new disk with 1GB  
+Restart VM and open Disk Management console  
+Set the new disk on Online and Initialize it  
+Create simple partition with max size, use **B** for drive letter, named volume **Backup** and finish configuration  
+
+Go on Windows Server Backup console  

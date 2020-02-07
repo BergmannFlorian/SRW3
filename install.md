@@ -31,22 +31,22 @@ Installation : `Custom`
 
 On dashboard, choose **Add roles and features**  
 Select server roles `Web Server (IIS)`  
-No change Features  
+No change in Features  
 On Role Services, choose in Application Developement :  
-![Services List](i mg/IIS/Screenshot_1.png)  
+![Services List](img/IIS/Screenshot_1.png)  
 Finish installation  
 
 ## Config IIS 10
 
 Go on **Internet Information Services (IIS) Manager**  
-![IIS console](i mg/IIS/Screenshot_2.png)  
+![IIS console](img/IIS/Screenshot_2.png)  
 
 Disabled default site : **WIN-XXX...** -> **Sites** -> **Default Web Site** -> right clic -> **Manage** -> **Stop**  
 
 Add new site : **WIN-XXX...** -> **Sites** -> right clic -> **Add Website**
 
-Fill like this :
-![Config site](i mg/IIS/Screenshot_3.png)  
+Fill like this :  
+![Config site](img/IIS/Screenshot_3.png)  
 
 Clic on the new site **Site IIS** -> **Default Document** and add new default document `iis.html`  
 
@@ -63,11 +63,11 @@ Extract content of zip in **C:\PHP7.4.2\\** folder
 
 Go on https://aka.ms/vs/16/release/vc_redist.x64.exe and execute the exe file  
 
-Next go back on Internet Information Services (IIS) Manager -> **WIN-XXX...** and choose **Handler Mappings**  
+Next go back on **Internet Information Services (IIS) Manager** -> **WIN-XXX...** and choose **Handler Mappings**  
 Add new mapping  
-![add mapping](i mg/php/Screenshot_1.png)  
+![add mapping](img/php/Screenshot_1.png)  
 Fill content with the same configuration  
-![add mapping](i mg/php/Screenshot_2.png)  
+![add mapping](img/php/Screenshot_2.png)  
 
 Restart site : **WIN-XXX...** -> **Sites** -> **Site IIS** -> right clic -> **Manage** -> **Restart**  
 
@@ -77,63 +77,63 @@ Next go on **C:\iis_www** and add new file `index.php` and paste `<?php phpinfo(
 
 Install Server Roles `Active Directory Domain Services`  
 Show warning message et clic on `Promote this ...`  
-![promotion](i mg/auth/Screenshot_1.png)  
+![promotion](img/auth/Screenshot_1.png)  
 Add a new forest `srw3.local`  
 Check form is same (you choose password) :  
-![promotion](i mg/auth/Screenshot_2.png)  
+![promotion](img/auth/Screenshot_2.png)  
 After just go of end of config and finish installation  
 
 Add `Windows Authentification` on **Manage** -> **Add Roles and Features**  
-![promotion](i mg/auth/Screenshot_3.png)  
+![promotion](img/auth/Screenshot_3.png)  
 
-Next Go on Internet Information Services (IIS) Manager -> **WIN-XXXX...** and select **Authentification** on IIS  
+Next Go on **Internet Information Services (IIS) Manager** -> **WIN-XXXX...** and select **Authentification** on IIS  
 Disabled all and Enable **Windows Authentification**
 
 ## FTP
 
 First, install Server Roles `FTP`  
-![promotion](i mg/ftp/Screenshot_1.png)
+![promotion](img/ftp/Screenshot_1.png)
 
 On confirmation page, active `Restart the dest...` and finish installation  
 
 Reload **Internet Information Services (IIS) Manager** and add FTP site :  
-![promotion](i mg/ftp/Screenshot_2.png)  
+![promotion](img/ftp/Screenshot_2.png)  
 
 Field form with `FTP IIS` for the name and site folder `C:\iis_www` for physical path  
 
 Check you are the same information :  
-![promotion](i mg/ftp/Screenshot_3.png)
-![promotion](i mg/ftp/Screenshot_4.png)
+![promotion](img/ftp/Screenshot_3.png)
+![promotion](img/ftp/Screenshot_4.png)
 
 Apply change and restart **FTPSVC Services** on Task Manager  
-![promotion](i mg/ftp/Screenshot_5.png)  
+![promotion](img/ftp/Screenshot_5.png)  
 
 ## Backup
 
 Add new feature `Windows Server Backup`  
-![promotion](i mg/backup/Screenshot_1.png)  
+![promotion](img/backup/Screenshot_1.png)  
 On confirmation page, active `Restart the dest...` and finish installation  
 
 Next shut down the VM and add new disk with 1GB 
 
-Restart VM and open Disk Management console  
+Restart VM and open **Disk Management** console  
 
 Set the new disk on Online and Initialize it  
-![promotion](i mg/backup/Screenshot_2.png)
-![promotion](i mg/backup/Screenshot_3.png) 
+![promotion](img/backup/Screenshot_2.png)
+![promotion](img/backup/Screenshot_3.png) 
 
 Create simple partition   
-![promotion](i mg/backup/Screenshot_4.png)  
-with max size, use **B** for drive letter, named volume **Backup** and finish configuration  
+![promotion](img/backup/Screenshot_4.png)  
+with max size, use `B` for drive letter, named volume `Backup` and finish configuration  
 
-Go on **Windows Server Backup console** and clic on **Backup Shedule...** :
-![promotion](i mg/backup/Screenshot_5.png)  
+Go on **Windows Server Backup** console and clic on **Backup Shedule...** :
+![promotion](img/backup/Screenshot_5.png)  
 
 On **Select Backup Config...** choose `Custom`  
 On **Select Items for Backup** add `"C:\iis_www\` et `C:\Windows\System32\inetsrv\config\` :  
-![promotion](i mg/backup/Screenshot_6.png)  
+![promotion](img/backup/Screenshot_6.png)  
 
 Backup up to a volume and select `Backup (B:)`  
 Check you have the same informations :  
-![promotion](i mg/backup/Screenshot_7.png)  
+![promotion](img/backup/Screenshot_7.png)  
 Finish configuration

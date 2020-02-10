@@ -1,14 +1,21 @@
-## Table des matières
+## Content Table
 
-- [Table des matières](#table-des-mati%c3%a8res)
-- [Config VM](#config-vm)
-- [Config Windows](#config-windows)
-- [Install IIS 10](#install-iis-10)
-- [Config IIS 10](#config-iis-10)
-- [Install PHP](#install-php)
-- [Add Auth](#add-auth)
-- [FTP](#ftp)
-- [Backup](#backup)
+- [Labo 1](#labo-1)
+  - [Config VM](#config-vm)
+  - [Config Windows](#config-windows)
+  - [Install IIS 10](#install-iis-10)
+  - [Config IIS 10](#config-iis-10)
+  - [Install PHP](#install-php)
+  - [Add Auth](#add-auth)
+  - [FTP](#ftp)
+  - [Backup](#backup)
+- [Labo 2](#labo-2)
+  - [Exe 1](#exe-1)
+  - [Exe 2](#exe-2)
+  - [Exe 3](#exe-3)
+  - [Exe 4](#exe-4)
+
+# Labo 1
 
 ## Config VM
 
@@ -33,20 +40,20 @@ On dashboard, choose **Add roles and features**
 Select server roles `Web Server (IIS)`  
 No change in Features  
 On Role Services, choose in Application Developement :  
-![Services List](img/IIS/Screenshot_1.png)  
+![Services List](i mg/lab1/IIS/Screenshot_1.png)  
 Finish installation  
 
 ## Config IIS 10
 
 Go on **Internet Information Services (IIS) Manager**  
-![IIS console](img/IIS/Screenshot_2.png)  
+![IIS console](i mg/lab1/IIS/Screenshot_2.png)  
 
 Disabled default site : **WIN-XXX...** -> **Sites** -> **Default Web Site** -> right clic -> **Manage** -> **Stop**  
 
 Add new site : **WIN-XXX...** -> **Sites** -> right clic -> **Add Website**
 
 Fill like this :  
-![Config site](img/IIS/Screenshot_3.png)  
+![Config site](i mg/lab1/IIS/Screenshot_3.png)  
 
 Clic on the new site **Site IIS** -> **Default Document** and add new default document `iis.html`  
 
@@ -65,9 +72,9 @@ Go on https://aka.ms/vs/16/release/vc_redist.x64.exe and execute the exe file
 
 Next go back on **Internet Information Services (IIS) Manager** -> **WIN-XXX...** and choose **Handler Mappings**  
 Add new mapping  
-![add mapping](img/php/Screenshot_1.png)  
+![add mapping](i mg/lab1/php/Screenshot_1.png)  
 Fill content with the same configuration  
-![add mapping](img/php/Screenshot_2.png)  
+![add mapping](i mg/lab1/php/Screenshot_2.png)  
 
 Restart site : **WIN-XXX...** -> **Sites** -> **Site IIS** -> right clic -> **Manage** -> **Restart**  
 
@@ -77,14 +84,14 @@ Next go on **C:\iis_www** and add new file `index.php` and paste `<?php phpinfo(
 
 Install Server Roles `Active Directory Domain Services`  
 Show warning message et clic on `Promote this ...`  
-![promotion](img/auth/Screenshot_1.png)  
+![promotion](i mg/lab1/auth/Screenshot_1.png)  
 Add a new forest `srw3.local`  
 Check form is same (you choose password) :  
-![promotion](img/auth/Screenshot_2.png)  
+![promotion](i mg/lab1/auth/Screenshot_2.png)  
 After just go of end of config and finish installation  
 
 Add `Windows Authentification` on **Manage** -> **Add Roles and Features**  
-![promotion](img/auth/Screenshot_3.png)  
+![promotion](i mg/lab1/auth/Screenshot_3.png)  
 
 Next Go on **Internet Information Services (IIS) Manager** -> **WIN-XXXX...** and select **Authentification** on IIS  
 Disabled all and Enable **Windows Authentification**
@@ -92,26 +99,26 @@ Disabled all and Enable **Windows Authentification**
 ## FTP
 
 First, install Server Roles `FTP`  
-![promotion](img/ftp/Screenshot_1.png)
+![promotion](i mg/lab1/ftp/Screenshot_1.png)
 
 On confirmation page, active `Restart the dest...` and finish installation  
 
 Reload **Internet Information Services (IIS) Manager** and add FTP site :  
-![promotion](img/ftp/Screenshot_2.png)  
+![promotion](i mg/lab1/ftp/Screenshot_2.png)  
 
 Field form with `FTP IIS` for the name and site folder `C:\iis_www` for physical path  
 
 Check you are the same information :  
-![promotion](img/ftp/Screenshot_3.png)
-![promotion](img/ftp/Screenshot_4.png)
+![promotion](i mg/lab1/ftp/Screenshot_3.png)
+![promotion](i mg/lab1/ftp/Screenshot_4.png)
 
 Apply change and restart **FTPSVC Services** on Task Manager  
-![promotion](img/ftp/Screenshot_5.png)  
+![promotion](i mg/lab1/ftp/Screenshot_5.png)  
 
 ## Backup
 
 Add new feature `Windows Server Backup`  
-![promotion](img/backup/Screenshot_1.png)  
+![promotion](i mg/lab1/backup/Screenshot_1.png)  
 On confirmation page, active `Restart the dest...` and finish installation  
 
 Next shut down the VM and add new disk with 1GB 
@@ -119,21 +126,73 @@ Next shut down the VM and add new disk with 1GB
 Restart VM and open **Disk Management** console  
 
 Set the new disk on Online and Initialize it  
-![promotion](img/backup/Screenshot_2.png)
-![promotion](img/backup/Screenshot_3.png) 
+![promotion](i mg/lab1/backup/Screenshot_2.png)
+![promotion](i mg/lab1/backup/Screenshot_3.png) 
 
 Create simple partition   
-![promotion](img/backup/Screenshot_4.png)  
+![promotion](i mg/lab1/backup/Screenshot_4.png)  
 with max size, use `B` for drive letter, named volume `Backup` and finish configuration  
 
 Go on **Windows Server Backup** console and clic on **Backup Shedule...** :
-![promotion](img/backup/Screenshot_5.png)  
+![promotion](i mg/lab1/backup/Screenshot_5.png)  
 
 On **Select Backup Config...** choose `Custom`  
 On **Select Items for Backup** add `"C:\iis_www\` et `C:\Windows\System32\inetsrv\config\` :  
-![promotion](img/backup/Screenshot_6.png)  
+![promotion](i mg/lab1/backup/Screenshot_6.png)  
 
 Backup up to a volume and select `Backup (B:)`  
 Check you have the same informations :  
-![promotion](img/backup/Screenshot_7.png)  
+![promotion](i mg/lab1/backup/Screenshot_7.png)  
 Finish configuration
+
+# Labo 2
+
+Before start, disabled all active sites in **Internet Information Services (IIS) Manager** -> **WIN-XXX...** -> **Sites**
+
+## Exe 1
+
+Run this in **cmd** :  
+
+    md C:\SRW\Site01\ C:\SRW\repvirtuel\ && echo "" > C:\SRW\Site01\indexsite01.html && echo "" > C:\SRW\repvirtuel\indexvirtuel.html
+
+On **Internet Information Services (IIS) Manager** -> **WIN-XXX...** -> **Sites** -> right click -> **Add Website...**, fill with the same config :  
+![promotion](i mg/lab2/exe1/Screenshot_1.png)  
+
+Choose **Site01 ...** and open **Advanced Settings...** and change **ID** by `31` and close
+Open **Default Document** and remove all
+Add default document `indexsite01.html`
+
+Next go on **Directory Browsing** and enable  
+![promotion](i mg/lab2/exe1/Screenshot_2.png)  
+![promotion](i mg/lab2/exe1/Screenshot_3.png)  
+
+Right click on site and choose **Add Virutal Directory...**  
+![promotion](i mg/lab2/exe1/Screenshot_4.png)  
+And fill like this :  
+![promotion](i mg/lab2/exe1/Screenshot_5.png)  
+
+## Exe 2
+
+Run this in **cmd** on admin mode :  
+
+    md C:\SRW\Site02\ && echo "" > C:\SRW\Site02\indexsite02.html
+
+    cd C:\Windows\System32\inetsrv  
+
+    appcmd add site /name:"Site02 du Module SRW" /id:32 /physicalPath:C:\SRW\Site02 /bindings:http/*:8888:
+
+    appcmd set config "Site02 du Module SRW" /section:defaultDocument /~files"
+
+    appcmd set config "Site02 du Module SRW" /section:defaultDocument /+files.[value='indexsite02.html']
+
+    appcmd set config "Site02 du module SRW" /section:directoryBrowse /enabled:true
+    
+    appcmd add vdir /app.name:"Site02 du Module SRW/" /path:/test2 /physicalPath:C:\SRW\repvirtuel
+
+    netsh advfirewall firewall add rule name="Port 8888" protocol=TCP dir=in localport=8888 action=allow
+
+## Exe 3
+
+
+
+## Exe 4

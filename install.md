@@ -14,6 +14,7 @@
   - [Exe 2](#exe-2)
   - [Exe 3](#exe-3)
   - [Exe 4](#exe-4)
+- [Labo 3](#labo-3)
 
 # Labo 1
 
@@ -145,6 +146,8 @@ Check you have the same informations :
 ![promotion](i mg/lab1/backup/Screenshot_7.png)  
 Finish configuration
 
+[Content Table](##-Content-Table)
+
 # Labo 2
 
 Before start, disabled all active sites in **Internet Information Services (IIS) Manager** -> **WIN-XXX...** -> **Sites**
@@ -264,3 +267,7 @@ Remove site **Site01** :
 Restore preview backup on IIS config :  
 
     appcmd restore backup monbackup
+
+[Content Table](##-Content-Table)
+
+# Labo 3

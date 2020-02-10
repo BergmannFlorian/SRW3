@@ -153,7 +153,7 @@ Before start, disabled all active sites in **Internet Information Services (IIS)
 
 Run this in **cmd** :  
 
-    md C:\SRW\Site01\ C:\SRW\repvirtuel\ && echo "" > C:\SRW\Site01\indexsite01.html && echo "" > C:\SRW\repvirtuel\indexvirtuel.html
+    md C:\SRW\Site01\ C:\SRW\repvirtuel\ && echo "indexsite01" > C:\SRW\Site01\indexsite01.html && echo "indexvirtuel" > C:\SRW\repvirtuel\indexvirtuel.html
 
 On **Internet Information Services (IIS) Manager** -> **WIN-XXX...** -> **Sites** -> right click -> **Add Website...**, fill with the same config :  
 ![promotion](i mg/lab2/exe1/Screenshot_1.png)  
@@ -175,7 +175,7 @@ And fill like this :
 
 Run this in **cmd** on admin mode :  
 
-    md C:\SRW\Site02\ && echo "" > C:\SRW\Site02\indexsite02.html
+    md C:\SRW\Site02\ && echo "indexsite02" > C:\SRW\Site02\indexsite02.html
 
     cd C:\Windows\System32\inetsrv  
 
@@ -193,6 +193,74 @@ Run this in **cmd** on admin mode :
 
 ## Exe 3
 
+Run this in **cmd** :
 
+    md C:\SRW\Site03\ && echo "indexsite03" > C:\SRW\Site03\indexsite03.html && echo "" > C:\SRW\Site03\web.config
+
+Next open **C:\Windows\System32\inetsrv\config\applicationHost config** and add between <sites>...</sites> :
+
+    ```xml
+    <site name="Site03 du Module SRW" id="33" serverAutoStart="true">
+        <application path="/">
+            <virtualDirectory path="/" physicalPath="C:\SRW\Site03" />
+            <virtualDirectory path="/test3" physicalPath="C:\SRW\repvirtuel" />
+        </application>
+        <bindings>
+            <binding protocol="http" bindingInformation="*:8880:" />
+        </bindings>
+    </site>
+    ```
+Save and quit file
+
+Open **C:\SRW\Site03\web.config** and paste :  
+
+    ```xml
+    <site name="Site03 du Module SRW" id="33" serverAutoStart="true">
+        <application path="/">
+            <virtualDirectory path="/" physicalPath="C:\SRW\Site03" />
+            <virtualDirectory path="/test3" physicalPath="C:\SRW\repvirtuel" />
+        </application>
+        <bindings>
+            <binding protocol="http" bindingInformation="*:8880:" />
+        </bindings>
+    </site>
+    ```
+Save and quit
+
+Run this in **cmd** on admin mode :  
+
+    netsh advfirewall firewall add rule name="Port 8880" protocol=TCP dir=in localport=8880 action=allow
 
 ## Exe 4
+
+Show available sites :  
+
+    appcmd list sites
+
+Show sites with port **8080** :  
+
+    appcmd list sites /bindings:http/*:8080:
+
+Stop site with port **8080** :
+
+    appcmd list site /bindings:http/*:8080: /xml | appcmd stop site /in
+
+Start site with port **8080** :
+
+    appcmd list site /bindings:http/*:8080: /xml | appcmd start site /in
+
+Remove virtual repository **test1** from **site01** :
+
+    appcmd delete vdir /vdir.name:"Site01 du module SRW/test1"
+
+Backup IIS config :  
+
+    appcmd add backup monbackup
+
+Remove site **Site01** :  
+
+    appcmd delete site "Site02 du module SRW"
+
+Restore preview backup on IIS config :  
+
+    appcmd restore backup monbackup

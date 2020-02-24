@@ -20,6 +20,7 @@
   - [Config rules](#config-rules)
     - [Test site](#test-site-1)
   - [Config Auth](#config-auth)
+    - [Test](#test)
 
 # Labo 1
 
@@ -304,10 +305,9 @@ Run in **cmd**:
 
 Test access (where IP is Server address):
 
-    http://192.168.119.141:80
-    http://192.168.119.141
-    http://192.168.119.141/public
-    http://192.168.119.141/private
+    http://192.168.119.141 => access granted
+    http://192.168.119.141/public => access granted
+    http://192.168.119.141/private => access granted
 
 ## Config rules
 
@@ -328,14 +328,47 @@ Choose **Add Deny Entry...** and write IP of WMvare Network adapter (192.168.119
 
 Test access (where IP is Server address):
 
-    http://192.168.119.141:80
-    http://192.168.119.141
-    http://192.168.119.141/public
-    http://192.168.119.141/private
+    http://192.168.119.141 => access denied
+    http://192.168.119.141/public => access denied
+    http://192.168.119.141/private => access denied
 
 ## Config Auth
 
+Remove deny IP previously added
+
 Open **Active Directory Users and Computers**  
-![iprestriction](i mg/lab3/ad.png)  
+![ad](i mg/lab3/ad.png)  
 
+Add new User in **srw3** forest  
+![adduser](i mg/lab3/adduser.png)  
 
+Fill like this  
+![user1](i mg/lab3/user1.png)  
+![user2](i mg/lab3/user2.png)  
+
+Repeat with another new user named `SRW_private` with password `Qwertz123456`
+
+Go on **Internet Information Services (IIS) Manager** -> **WIN-XXX...** -> **Sites** -> **labo du Module SRW** -> **Authentification**  
+
+Enable and edit **Anonymous Authentification** and set the new user `SRW_labo` to the specic user
+
+On **Server Management**, add new roles `Digest Authentification` an `URL Authorization`
+![user2](i mg/lab3/addroles.png)  
+
+Open site **labo du Module SRW**, select **Private** and choose **Authentification**
+
+Enable `Disgest Authentification` and `Windows Authentification`, disable others
+
+Open **Authorization Rules** and edit the rule
+
+Change To specific users `SRW_private`
+
+Restart site **labo du Module SRW**
+
+### Test
+
+Test access (where IP is Server address):
+
+    http://192.168.119.141 => access granted
+    http://192.168.119.141/public => access granted
+    http://192.168.119.141/private => authentification required, granted with SRW_private user

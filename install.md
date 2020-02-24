@@ -21,6 +21,7 @@
     - [Test site](#test-site-1)
   - [Config Auth](#config-auth)
     - [Test](#test)
+- [Lab 4](#lab-4)
 
 # Labo 1
 
@@ -372,3 +373,7 @@ Test access (where IP is Server address):
     http://192.168.119.141 => access granted
     http://192.168.119.141/public => access granted
     http://192.168.119.141/private => authentification required, granted with SRW_private user
+
+[Content Table](##-Content-Table)
+
+# Lab 4

@@ -15,6 +15,11 @@
   - [Exe 3](#exe-3)
   - [Exe 4](#exe-4)
 - [Labo 3](#labo-3)
+  - [Add new site](#add-new-site)
+    - [Test site](#test-site)
+  - [Config rules](#config-rules)
+    - [Test site](#test-site-1)
+  - [Config Auth](#config-auth)
 
 # Labo 1
 
@@ -200,7 +205,7 @@ Run this in **cmd** :
 
     md C:\SRW\Site03\ && echo "indexsite03" > C:\SRW\Site03\indexsite03.html && echo "" > C:\SRW\Site03\web.config
 
-Next open **C:\Windows\System32\inetsrv\config\applicationHost config** and add between <sites>...</sites> :
+Next open **C:\Windows\System32\inetsrv\config\application\Host config** and add between <sites>...</sites> :
 
     ```xml
     <site name="Site03 du Module SRW" id="33" serverAutoStart="true">
@@ -272,22 +277,65 @@ Restore preview backup on IIS config :
 
 # Labo 3
 
-Run in **cmd**:  
+## Add new site
 
-    <!-- copy from https://aspnetfaq.com/stopping-all-sites-on-a-windows-server-without-stopping-iis/ -->
-    c:\windows\system32\inetsrv\appcmd.exe list site /xml /state:"$=started" | appcmd stop site /in
+Run in **cmd**:  
 
     md C:\SRW\labo\ C:\SRW\labo\Private\ C:\SRW\labo\Public\ && echo "labo" > C:\SRW\labo\labo.html && echo "private" > C:\SRW\labo\Private\private.html && echo "public" > C:\SRW\labo\Public\public.html
 
     cd C:\Windows\System32\inetsrv  
+    
+    appcmd list site /xml /state:"$=started" | appcmd stop site /in  
 
-    appcmd add site /name:"labo du Module SRW" /id:41 /physicalPath:C:/SRW/labo /bindings:http/*:80:
+    appcmd add site /name:"labo du Module SRW" /id:41 /physicalPath:C:\SRW\labo /bindings:http/*:80:  
 
-    netsh advfirewall firewall add rule name="Port 8888" protocol=TCP dir=in localport=8888 action=allow
+    appcmd set config "labo du Module SRW" /section:defaultDocument /~files"  
+    appcmd set config "labo du Module SRW" /section:defaultDocument /+files.[value='labo.html']  
 
-Next go on **Internet Information Services (IIS) Manager** -> **WIN-XXX...** -> **Sites** -> **labo du module SRW**  
+    appcmd set config "labo du Module SRW/Private" /section:defaultDocument /~files"  
+    appcmd set config "labo du Module SRW/Private" /section:defaultDocument /+files.[value='private.html']  
 
-open **Default Document**, remove all and add `labo.html`  
+    appcmd set config "labo du Module SRW/Public" /section:defaultDocument /~files"  
+    appcmd set config "labo du Module SRW/Public" /section:defaultDocument /+files.[value='public.html']  
 
-Open **labo du module SRW** -> **Private** -> **Default Document**, remove all and add `private.html`  
-Open **labo du module SRW** -> **Public** -> **Default Document**, remove all and add `public.html`  
+    appcmd set config "labo du Module SRW" /section:directoryBrowse /enabled:true  
+
+### Test site
+
+Test access (where IP is Server address):
+
+    http://192.168.119.141:80
+    http://192.168.119.141
+    http://192.168.119.141/public
+    http://192.168.119.141/private
+
+## Config rules
+
+Open **Server Manager** console and choose **Add Roles and Features**  
+
+Go to **Server Roles** -> **Web Server (IIS)** -> **Web Server** -> **Security**  
+
+Check `IP and Domain Restrictions` and finish installation  
+
+Next open **Internet Information Services (IIS) Manager**  
+
+Select **labo du Module SRW** and open **IP Address and Domaine Restrictions**  
+![iprestriction](i mg/lab3/iprestr.png)  
+
+Choose **Add Deny Entry...** and write IP of WMvare Network adapter (192.168.119.1 for me)
+
+### Test site
+
+Test access (where IP is Server address):
+
+    http://192.168.119.141:80
+    http://192.168.119.141
+    http://192.168.119.141/public
+    http://192.168.119.141/private
+
+## Config Auth
+
+Open **Active Directory Users and Computers**  
+![iprestriction](i mg/lab3/ad.png)  
+
+

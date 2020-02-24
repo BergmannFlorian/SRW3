@@ -272,3 +272,22 @@ Restore preview backup on IIS config :
 
 # Labo 3
 
+Run in **cmd**:  
+
+    <!-- copy from https://aspnetfaq.com/stopping-all-sites-on-a-windows-server-without-stopping-iis/ -->
+    c:\windows\system32\inetsrv\appcmd.exe list site /xml /state:"$=started" | appcmd stop site /in
+
+    md C:\SRW\labo\ C:\SRW\labo\Private\ C:\SRW\labo\Public\ && echo "labo" > C:\SRW\labo\labo.html && echo "private" > C:\SRW\labo\Private\private.html && echo "public" > C:\SRW\labo\Public\public.html
+
+    cd C:\Windows\System32\inetsrv  
+
+    appcmd add site /name:"labo du Module SRW" /id:41 /physicalPath:C:/SRW/labo /bindings:http/*:80:
+
+    netsh advfirewall firewall add rule name="Port 8888" protocol=TCP dir=in localport=8888 action=allow
+
+Next go on **Internet Information Services (IIS) Manager** -> **WIN-XXX...** -> **Sites** -> **labo du module SRW**  
+
+open **Default Document**, remove all and add `labo.html`  
+
+Open **labo du module SRW** -> **Private** -> **Default Document**, remove all and add `private.html`  
+Open **labo du module SRW** -> **Public** -> **Default Document**, remove all and add `public.html`  

@@ -48,20 +48,20 @@ On dashboard, choose **Add roles and features**
 Select server roles `Web Server (IIS)`  
 No change in Features  
 On Role Services, choose in Application Developement :  
-![Services List](i mg/lab1/IIS/Screenshot_1.png)  
+![Services List](img/lab1/IIS/Screenshot_1.png)  
 Finish installation  
 
 ## Config IIS 10
 
 Go on **Internet Information Services (IIS) Manager**  
-![IIS console](i mg/lab1/IIS/Screenshot_2.png)  
+![IIS console](img/lab1/IIS/Screenshot_2.png)  
 
 Disabled default site : **WIN-XXX...** -> **Sites** -> **Default Web Site** -> right clic -> **Manage** -> **Stop**  
 
 Add new site : **WIN-XXX...** -> **Sites** -> right clic -> **Add Website**
 
 Fill like this :  
-![Config site](i mg/lab1/IIS/Screenshot_3.png)  
+![Config site](img/lab1/IIS/Screenshot_3.png)  
 
 Clic on the new site **Site IIS** -> **Default Document** and add new default document `iis.html`  
 
@@ -80,9 +80,9 @@ Go on https://aka.ms/vs/16/release/vc_redist.x64.exe and execute the exe file
 
 Next go back on **Internet Information Services (IIS) Manager** -> **WIN-XXX...** and choose **Handler Mappings**  
 Add new mapping  
-![add mapping](i mg/lab1/php/Screenshot_1.png)  
+![add mapping](img/lab1/php/Screenshot_1.png)  
 Fill content with the same configuration  
-![add mapping](i mg/lab1/php/Screenshot_2.png)  
+![add mapping](img/lab1/php/Screenshot_2.png)  
 
 Restart site : **WIN-XXX...** -> **Sites** -> **Site IIS** -> right clic -> **Manage** -> **Restart**  
 
@@ -92,14 +92,14 @@ Next go on **C:\iis_www** and add new file `index.php` and paste `<?php phpinfo(
 
 Install Server Roles `Active Directory Domain Services`  
 Show warning message et clic on `Promote this ...`  
-![promotion](i mg/lab1/auth/Screenshot_1.png)  
+![promotion](img/lab1/auth/Screenshot_1.png)  
 Add a new forest `srw3.local`  
 Check form is same (you choose password) :  
-![promotion](i mg/lab1/auth/Screenshot_2.png)  
+![promotion](img/lab1/auth/Screenshot_2.png)  
 After just go of end of config and finish installation  
 
 Add `Windows Authentification` on **Manage** -> **Add Roles and Features**  
-![promotion](i mg/lab1/auth/Screenshot_3.png)  
+![promotion](img/lab1/auth/Screenshot_3.png)  
 
 Next Go on **Internet Information Services (IIS) Manager** -> **WIN-XXXX...** and select **Authentification** on IIS  
 Disabled all and Enable **Windows Authentification**
@@ -107,26 +107,26 @@ Disabled all and Enable **Windows Authentification**
 ## FTP
 
 First, install Server Roles `FTP`  
-![promotion](i mg/lab1/ftp/Screenshot_1.png)
+![promotion](img/lab1/ftp/Screenshot_1.png)
 
 On confirmation page, active `Restart the dest...` and finish installation  
 
 Reload **Internet Information Services (IIS) Manager** and add FTP site :  
-![promotion](i mg/lab1/ftp/Screenshot_2.png)  
+![promotion](img/lab1/ftp/Screenshot_2.png)  
 
 Field form with `FTP IIS` for the name and site folder `C:\iis_www` for physical path  
 
 Check you are the same information :  
-![promotion](i mg/lab1/ftp/Screenshot_3.png)
-![promotion](i mg/lab1/ftp/Screenshot_4.png)
+![promotion](img/lab1/ftp/Screenshot_3.png)
+![promotion](img/lab1/ftp/Screenshot_4.png)
 
 Apply change and restart **FTPSVC Services** on Task Manager  
-![promotion](i mg/lab1/ftp/Screenshot_5.png)  
+![promotion](img/lab1/ftp/Screenshot_5.png)  
 
 ## Backup
 
 Add new feature `Windows Server Backup`  
-![promotion](i mg/lab1/backup/Screenshot_1.png)  
+![promotion](img/lab1/backup/Screenshot_1.png)  
 On confirmation page, active `Restart the dest...` and finish installation  
 
 Next shut down the VM and add new disk with 1GB 
@@ -134,23 +134,23 @@ Next shut down the VM and add new disk with 1GB
 Restart VM and open **Disk Management** console  
 
 Set the new disk on Online and Initialize it  
-![promotion](i mg/lab1/backup/Screenshot_2.png)
-![promotion](i mg/lab1/backup/Screenshot_3.png) 
+![promotion](img/lab1/backup/Screenshot_2.png)
+![promotion](img/lab1/backup/Screenshot_3.png) 
 
 Create simple partition   
-![promotion](i mg/lab1/backup/Screenshot_4.png)  
+![promotion](img/lab1/backup/Screenshot_4.png)  
 with max size, use `B` for drive letter, named volume `Backup` and finish configuration  
 
 Go on **Windows Server Backup** console and clic on **Backup Shedule...** :
-![promotion](i mg/lab1/backup/Screenshot_5.png)  
+![promotion](img/lab1/backup/Screenshot_5.png)  
 
 On **Select Backup Config...** choose `Custom`  
 On **Select Items for Backup** add `"C:\iis_www\` et `C:\Windows\System32\inetsrv\config\` :  
-![promotion](i mg/lab1/backup/Screenshot_6.png)  
+![promotion](img/lab1/backup/Screenshot_6.png)  
 
 Backup up to a volume and select `Backup (B:)`  
 Check you have the same informations :  
-![promotion](i mg/lab1/backup/Screenshot_7.png)  
+![promotion](img/lab1/backup/Screenshot_7.png)  
 Finish configuration
 
 [Content Table](##-Content-Table)
@@ -166,20 +166,20 @@ Run this in **cmd** :
     md C:\SRW\Site01\ C:\SRW\repvirtuel\ && echo "indexsite01" > C:\SRW\Site01\indexsite01.html && echo "indexvirtuel" > C:\SRW\repvirtuel\indexvirtuel.html
 
 On **Internet Information Services (IIS) Manager** -> **WIN-XXX...** -> **Sites** -> right click -> **Add Website...**, fill with the same config :  
-![promotion](i mg/lab2/exe1/Screenshot_1.png)  
+![promotion](img/lab2/exe1/Screenshot_1.png)  
 
 Choose **Site01 ...** and open **Advanced Settings...** and change **ID** by `31` and close
 Open **Default Document** and remove all
 Add default document `indexsite01.html`
 
 Next go on **Directory Browsing** and enable  
-![promotion](i mg/lab2/exe1/Screenshot_2.png)  
-![promotion](i mg/lab2/exe1/Screenshot_3.png)  
+![promotion](img/lab2/exe1/Screenshot_2.png)  
+![promotion](img/lab2/exe1/Screenshot_3.png)  
 
 Right click on site and choose **Add Virutal Directory...**  
-![promotion](i mg/lab2/exe1/Screenshot_4.png)  
+![promotion](img/lab2/exe1/Screenshot_4.png)  
 And fill like this :  
-![promotion](i mg/lab2/exe1/Screenshot_5.png)  
+![promotion](img/lab2/exe1/Screenshot_5.png)  
 
 ## Exe 2
 
@@ -321,7 +321,7 @@ Check `IP and Domain Restrictions` and finish installation
 Next open **Internet Information Services (IIS) Manager**  
 
 Select **labo du Module SRW** and open **IP Address and Domaine Restrictions**  
-![iprestriction](i mg/lab3/iprestr.png)  
+![iprestriction](img/lab3/iprestr.png)  
 
 Choose **Add Deny Entry...** and write IP of WMvare Network adapter (192.168.119.1 for me)
 
@@ -338,14 +338,14 @@ Test access (where IP is Server address):
 Remove deny IP previously added
 
 Open **Active Directory Users and Computers**  
-![ad](i mg/lab3/ad.png)  
+![ad](img/lab3/ad.png)  
 
 Add new User in **srw3** forest  
-![adduser](i mg/lab3/adduser.png)  
+![adduser](img/lab3/adduser.png)  
 
 Fill like this  
-![user1](i mg/lab3/user1.png)  
-![user2](i mg/lab3/user2.png)  
+![user1](img/lab3/user1.png)  
+![user2](img/lab3/user2.png)  
 
 Repeat with another new user named `SRW_private` with password `Qwertz123456`
 
@@ -354,11 +354,13 @@ Go on **Internet Information Services (IIS) Manager** -> **WIN-XXX...** -> **Sit
 Enable and edit **Anonymous Authentification** and set the new user `SRW_labo` to the specic user
 
 On **Server Management**, add new roles `Digest Authentification` an `URL Authorization`
-![user2](i mg/lab3/addroles.png)  
+![user2](img/lab3/addroles.png)  
 
 Open site **labo du Module SRW**, select **Private** and choose **Authentification**
 
 Enable `Disgest Authentification` and `Windows Authentification`, disable others
+
+Edit `Disgest Authentification` and add `srw3.local`
 
 Open **Authorization Rules** and edit the rule
 
@@ -377,3 +379,37 @@ Test access (where IP is Server address):
 [Content Table](##-Content-Table)
 
 # Lab 4
+
+Stop the machine and edit th config
+
+Check the **Network adapter** is : `NAT`  
+Add new network adapter **Network adapter 2** and define it : `Bridged`  
+
+Start server
+
+Open **Active Directory User and Computer** -> **srw3.local** -> **Users**  
+Add 4 groups : `grpDirecteurs`, `grpIngénieurs`, `grpComptables`, `grpClients`  
+![add grp](img/lab4/addgrp.png)  
+
+Add 6 users with informations : (disabled `User must change password ...`)  
+| Firstname | Lastname| Login   | Password     |
+|-----------|---------|---------|--------------|
+| DUPONT    | Marcel  | mdupont | Qwertz123456 |
+| BRICOT    | Juda    | jbricot | Asdfgh123456 |
+| ASSAIN    | Marc    | massain | Yxcvbn123456 |
+| DEUF      | John    | jdeuf   | Qaywsx123456 |
+| DIOCY     | Kelly   | kdiocy  | Edcrfv123456 |
+| Clients   |         | dclient | Tgbzhn123456 |
+
+Next add users in group :  
+**DUPONT Marcel** -> `grpDirecteurs`  
+**BRICOT Juda** -> `grpIngénieurs`  
+**ASSAIN Marc** -> `grpComptables`  
+**DEUF John** -> `grpIngénieurs`  
+**DIOCY Kelly** -> `grpIngénieurs`  
+**Clients** -> `grpClients`  
+![add to grp](img/lab4/addtogrp.png)  
+
+
+
+

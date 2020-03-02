@@ -387,8 +387,14 @@ Add new network adapter **Network adapter 2** and define it : `Bridged`
 
 Start server
 
+Open cmd, run `ipconfig` and check ip address :  
+![add grp](img/lab4/ip.png)  
+
+Change adapter settings to fixed config
+
+
 Open **Active Directory User and Computer** -> **srw3.local** -> **Users**  
-Add 4 groups : `grpDirecteurs`, `grpIngénieurs`, `grpComptables`, `grpClients`  
+Add 4 groups : `grpDirecteurs`, `grpIngenieurs`, `grpComptables`, `grpClients`  
 ![add grp](img/lab4/addgrp.png)  
 
 Add 6 users with informations : (disabled `User must change password ...`)  
@@ -410,6 +416,55 @@ Next add users in group :
 **Clients** -> `grpClients`  
 ![add to grp](img/lab4/addtogrp.png)  
 
+Open CMD and run :
 
+    md C:\www C:\www\Internet\ C:\www\Internet\dclient\ C:\www\Intranet\ C:\www\Intranet\Users\ C:\www\Intranet\Users\mdupont\ C:\www\Intranet\Users\jbricot\ C:\www\Intranet\Users\massain\ C:\www\Intranet\Users\jdeuf\ C:\www\Intranet\Users\kdiocy\
+    
+    echo Internet > C:\www\Internet\index.html && echo dclient > C:\www\Internet\dclient\index.html && echo Intranet > C:\www\Intranet\index.html && echo mdupont > C:\www\Intranet\Users\mdupont\index.html && echo jbricot > C:\www\Intranet\Users\jbricot\index.html && echo massain > C:\www\Intranet\Users\massain\index.html && echo jdeuf > C:\www\Intranet\Users\jdeuf\index.html && echo kdiocy > C:\www\Intranet\Users\kdiocy\index.html
 
+Go to **Internet Information Services (IIS) Manager** -> **WIN-XXX...** -> **Sites**  
 
+Stop all sites  
+
+Add new website :  
+Site name : `Internet`  
+Physical path : `C:\www\Internet`  
+Ip address : `10.229.xx.xx`  
+Port: `80`
+
+Add new website :  
+Site name : `Intranet`  
+Physical path : `C:\www\Intranet`  
+Ip address : `192.168.xx.xx`  
+Port: `80`
+
+On **Internet** :  
+**Authentication** : `Anonymous Authentication` -> `Enabled`  
+**Default Document** : Remove all except `index.html`  
+Folder **dclient** :
+    **Authentication** -> enabled `Windows Authentication` and disabled others
+    **Authorization Rules** -> Remove `All Users` and add groups `grpIngénieur` and `grpClients`
+Add virtual directory :  
+**Alias** : `Intranet`
+**Physical path** : `C:\www\Intranet`
+
+On **intranet** :
+**Authentication** : enabled `Windows Authentication` and disabled others
+**Default Document** : Remove all except `index.html` 
+Folder **Users** :
+    **Authentication** -> enabled `Windows Authentication` and disabled others
+    For each folder in **User**, set **Authorization Rules** -> Remove `All Users` and add user with the same name of folder
+        Exemple : Folder **jbricot** : "Authorization Rules" -> Remove `All Users` and add `jbricot`
+Add virtual directory :  
+**Alias** : `Internet`
+**Physical path** : `C:\www\Internet`
+
+Go on **Internet Information Services (IIS) Manager** -> **WIN-XXX...**
+Open **Server Certificates** 
+Choose on the right **Create Self-Signed Certificate...** :
+Name : `SRW3`
+Certificate store : `Web Hosting`
+
+Next add biding https on **Internet** and **Intranet** :
+![add to grp](img/lab4/httpsInternet.png)  
+![add to grp](img/lab4/httpsIntranet.png)  

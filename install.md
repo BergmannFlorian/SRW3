@@ -438,21 +438,17 @@ Physical path : `C:\www\Intranet`
 Ip address : `192.168.xx.xx`  
 Port: `80`
 
-On **Internet** :  
-**Authentication** : `Anonymous Authentication` -> `Enabled`  
+On **Internet** :    
 **Default Document** : Remove all except `index.html`  
 Folder **dclient** :
-    **Authentication** -> enabled `Windows Authentication` and disabled others
     **Authorization Rules** -> Remove `All Users` and add groups `grpIngénieur` and `grpClients`
 Add virtual directory :  
 **Alias** : `Intranet`
 **Physical path** : `C:\www\Intranet`
 
-On **intranet** :
-**Authentication** : enabled `Windows Authentication` and disabled others
+On **Intranet** :
 **Default Document** : Remove all except `index.html` 
 Folder **Users** :
-    **Authentication** -> enabled `Windows Authentication` and disabled others
     For each folder in **User**, set **Authorization Rules** -> Remove `All Users` and add user with the same name of folder
         Exemple : Folder **jbricot** : "Authorization Rules" -> Remove `All Users` and add `jbricot`
 Add virtual directory :  
@@ -468,3 +464,14 @@ Certificate store : `Web Hosting`
 Next add biding https on **Internet** and **Intranet** :
 ![add to grp](img/lab4/httpsInternet.png)  
 ![add to grp](img/lab4/httpsIntranet.png)  
+
+Set **Authentication** for :
+**Internet** : `Anonymous Authentication`, `Digest Authentication` and `Windows Authentication` -> enabled, other disabled
+**Internet** -> **dclient** : `Digest Authentication` and `Windows Authentication` -> enabled, other disabled
+**Internet** -> **Intranet** : `Digest Authentication` and `Windows Authentication` -> enabled, other disabled
+
+Check **Require SSL** in **SSL Settings** for :
+
+Add grp `grpIngenieurs` to `IIS_IUSRS`
+
+Add `HTTP Redirect` on **Internet** -> **Intranet** to `https://Internet/Intranet`

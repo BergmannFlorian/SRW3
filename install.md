@@ -22,6 +22,12 @@
   - [Config Auth](#config-auth)
     - [Test](#test)
 - [Lab 4](#lab-4)
+  - [Set ip config](#set-ip-config)
+  - [Manage user](#manage-user)
+  - [Create website](#create-website)
+  - [Add SSL](#add-ssl)
+  - [Add management by ingenieurs](#add-management-by-ingenieurs)
+  - [Config HTTPS redirect](#config-https-redirect)
 
 # Labo 1
 
@@ -380,6 +386,8 @@ Test access (where IP is Server address):
 
 # Lab 4
 
+## Set ip config
+
 Stop the machine and edit th config
 
 Check the **Network adapter** is : `NAT`  
@@ -392,6 +400,7 @@ Open cmd, run `ipconfig` and check ip address :
 
 Change adapter settings to fixed config
 
+## Manage user
 
 Open **Active Directory User and Computer** -> **srw3.local** -> **Users**  
 Add 4 groups : `grpDirecteurs`, `grpIngenieurs`, `grpComptables`, `grpClients`  
@@ -416,6 +425,10 @@ Next add users in group :
 **Clients** -> `grpClients`  
 ![add to grp](img/lab4/addtogrp.png)  
 
+Add grp `grpIngenieurs` to `IIS_IUSRS`
+
+## Create website
+
 Open CMD and run :
 
     md C:\www C:\www\Internet\ C:\www\Internet\dclient\ C:\www\Intranet\ C:\www\Intranet\Users\ C:\www\Intranet\Users\mdupont\ C:\www\Intranet\Users\jbricot\ C:\www\Intranet\Users\massain\ C:\www\Intranet\Users\jdeuf\ C:\www\Intranet\Users\kdiocy\
@@ -439,21 +452,39 @@ Ip address : `192.168.xx.xx`
 Port: `80`
 
 On **Internet** :    
-**Default Document** : Remove all except `index.html`  
-Folder **dclient** :
-    **Authorization Rules** -> Remove `All Users` and add groups `grpIngénieur` and `grpClients`
-Add virtual directory :  
-**Alias** : `Intranet`
-**Physical path** : `C:\www\Intranet`
+    **Default Document** : Remove all except `index.html`  
+    **Authentication** : Enable `Anonymous ...`, `Digest ...` and `Windows ...`, disabled others  
+    Folder **dclient** :  
+        **Authorization Rules** -> Remove `All Users` and add groups `grpIngenieur` and `grpClients`  
+        **Authentication** : Enable `Digest ...` and `Windows ...`, disabled others     
 
-On **Intranet** :
-**Default Document** : Remove all except `index.html` 
-Folder **Users** :
-    For each folder in **User**, set **Authorization Rules** -> Remove `All Users` and add user with the same name of folder
-        Exemple : Folder **jbricot** : "Authorization Rules" -> Remove `All Users` and add `jbricot`
-Add virtual directory :  
-**Alias** : `Internet`
-**Physical path** : `C:\www\Internet`
+On **Intranet** :  
+    **Default Document** : Remove all except `index.html`  
+    **Authentication** : Enable `Anonymous ...`, `Digest ...` and `Windows ...`, disabled others  
+    Folder **Users** :  
+        **Authentication** : Enable `Digest ...` and `Windows ...`, disabled others  
+        For each folder in **User**, set **Authorization Rules** -> Remove `All Users` and add user with the same name of folder  
+            Exemple : Folder **jbricot** : "Authorization Rules" -> Remove `All Users` and add `jbricot`  
+
+Add virtual directory in **Internet** :  
+        **Alias** : `Intranet`  
+        **Physical path** : `C:\www\Intranet`  
+        **Authentication** : Enable `Digest ...` and `Windows ...`, disabled others  
+        Sub-Folder **Users** :
+            **Authentication** : Enable `Digest ...` and `Windows ...`, disabled others  
+            For each user folder in **Users** :
+                **Authentication** : Enable `Digest ...` and `Windows ...`, disabled others  
+                Check **Authorisation Rules** allow for the user
+
+Add virtual directory in **Intranet**:  
+        **Alias** : `Internet`
+        **Physical path** : `C:\www\Internet`
+        **Authentication** : Enable `Anonymous ...`, `Digest ...` and `Windows ...`, disabled others 
+        Sub-folder **dclient** :  
+            **Authentication** : Enable `Digest ...` and `Windows ...`, disabled others 
+            Check **Authorisation Rules** are allow for `grpClients` and `grpIngenieurs`
+
+## Add SSL
 
 Go on **Internet Information Services (IIS) Manager** -> **WIN-XXX...**
 Open **Server Certificates** 
@@ -465,13 +496,33 @@ Next add biding https on **Internet** and **Intranet** :
 ![add to grp](img/lab4/httpsInternet.png)  
 ![add to grp](img/lab4/httpsIntranet.png)  
 
-Set **Authentication** for :
-**Internet** : `Anonymous Authentication`, `Digest Authentication` and `Windows Authentication` -> enabled, other disabled
-**Internet** -> **dclient** : `Digest Authentication` and `Windows Authentication` -> enabled, other disabled
-**Internet** -> **Intranet** : `Digest Authentication` and `Windows Authentication` -> enabled, other disabled
+## Add management by ingenieurs
+<!-- Doc based from https://moodle.cpnv.ch/moodle/pluginfile.php/21591/mod_resource/content/1/How%20to%20Configure%20IIS8%20Remote%20Administration.pdf -->
 
-Check **Require SSL** in **SSL Settings** for :
+On **Server Manager** console, add server roles `Management Service`
+![add to grp](img/lab4/httpsIntranet.png)  
 
-Add grp `grpIngenieurs` to `IIS_IUSRS`
+On IIS manager console -> **WIN-XXX...**, on the right on windows, clic on **Get New Web Plateform Components**
+Save and run msi file `WebPlateformInstaller`
 
-Add `HTTP Redirect` on **Internet** -> **Intranet** to `https://Internet/Intranet`
+Close and re-open IIS manager console
+Go on **WIN-XXX...** -> **Management Service**, enabled `Enable remote connections` and clic `Start`
+
+Next, for **Internet** and **Intranet** add `grpIngenieurs` in **IIS Manager Permissions**
+
+On windows client :
+Enable feature windows `IIS Management Console`
+Install [IIS Manager for Remote Administration](http://www.iis.net/downloads/microsoft/iis-manager)
+
+Open `Management of Internet Services (IIS)`
+Right clic -> **Connect to a Website** :
+**Server Name** : `[IP of Internet website]`
+**Site Name** : `Internet`
+**User** : `jbricot`
+**Password** : `Asdfgh123456`
+
+## Config HTTPS redirect
+
+Follow [source documentation](https://www.namecheap.com/support/knowledgebase/article.aspx/9953/38/iis-redirect-http-to-https)
+
+Just replace **Pattern** `(.*)` by `(/intrane)`

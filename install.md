@@ -431,9 +431,14 @@ Add grp `grpIngenieurs` to `IIS_IUSRS`
 
 Open CMD and run :
 
-    md C:\www C:\www\Internet\ C:\www\Internet\dclient\ C:\www\Intranet\ C:\www\Intranet\Users\ C:\www\Intranet\Users\mdupont\ C:\www\Intranet\Users\jbricot\ C:\www\Intranet\Users\massain\ C:\www\Intranet\Users\jdeuf\ C:\www\Intranet\Users\kdiocy\
+    md C:\www C:\www\Internet\ C:\www\Internet\dclient\ C:\www\Intranet\  C:\www\Intranet\Users\ C:\www\Intranet\Users\mdupont\ C:\www\Intranet\Users\jbricot\ C:\www\Intranet\Users\massain\ C:\www\Intranet\Users\jdeuf\ C:\www\Intranet\Users\kdiocy\
     
     echo Internet > C:\www\Internet\index.html && echo dclient > C:\www\Internet\dclient\index.html && echo Intranet > C:\www\Intranet\index.html && echo mdupont > C:\www\Intranet\Users\mdupont\index.html && echo jbricot > C:\www\Intranet\Users\jbricot\index.html && echo massain > C:\www\Intranet\Users\massain\index.html && echo jdeuf > C:\www\Intranet\Users\jdeuf\index.html && echo kdiocy > C:\www\Intranet\Users\kdiocy\index.html
+
+In **wwww** folder, add `grpIngenieur` and `IIS_IUSRS` and modify right
+
+In Users folder, disabled inheritance, delete users and add `IIS_IUSRS`    
+For each user folder, add the user and define modify right  
 
 Go to **Internet Information Services (IIS) Manager** -> **WIN-XXX...** -> **Sites**  
 

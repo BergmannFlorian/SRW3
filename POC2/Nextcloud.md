@@ -29,11 +29,14 @@ Run commands in root
 
     apt install mariadb-server -y
 
-Open `/etc/mysql/my.cnf` and add on the end of file:  
-```
-[mysqld]
-bind-address=0.0.0.0
-```
+    apt install vim
+
+    vim /etc/mysql/my.cnf 
+    
+Add on the end of file:
+
+    [mysqld]
+    bind-address=0.0.0.0
 
 ## Nextcloud install
     mkdir -p /var/www
@@ -71,13 +74,13 @@ bind-address=0.0.0.0
 
 Change the file format of nextcloud DB to `Barracuda` :  
 
-    mysql -e "SET GLOBAL innodb_file_format=Barracuda;
+    mysql -e "SET GLOBAL innodb_file_format=Barracuda;"
 
-    SELECT NAME, SPACE, FILE_FORMAT FROM INFORMATION_SCHEMA.INNODB_SYS_TABLES WHERE NAME like 'Nextcloud%'";
+    SELECT NAME, SPACE, FILE_FORMAT FROM INFORMATION_SCHEMA.INNODB_SYS_TABLES WHERE NAME like 'Nextcloud%'";"
 
-    mysql -e "USE INFORMATION_SCHEMA;
+    mysql -e "USE INFORMATION_SCHEMA;"
 
-    SELECT CONCAT('ALTER TABLE ', TABLE_SCHEMA,'.', TABLE_NAME, ' ROW_FORMAT=DYNAMIC;') AS MySQLCMD FROM TABLES WHERE TABLE_SCHEMA = 'Nextcloud'";
+    SELECT CONCAT('ALTER TABLE ', TABLE_SCHEMA,'.', TABLE_NAME, ' ROW_FORMAT=DYNAMIC;') AS MySQLCMD FROM TABLES WHERE TABLE_SCHEMA = 'Nextcloud'";"
 
 Put `utf8mb` on default format for nextcloud application and **Disable** maintenance mode :
 
@@ -95,18 +98,17 @@ Put `utf8mb` on default format for nextcloud application and **Disable** mainten
     -subj "/C=CH/ST=Vaud/L=Ste-Croix/O=CPNV/OU=IT Department/CN=nextcloud.cpnv.ch"
 
 ### Config NGINX
-    nano /etc/nginx/conf.d/nextcloud.conf
+    vim /etc/nginx/conf.d/nextcloud.conf
 
 Add [the content](nextcloud.conf)
 exit and save  the file
 
 Go to pool of fpm and add new nextcloud pool configuration 
     
-    nano /etc/php/7.3/fpm/pool.d/nextcloud.conf
+    vim /etc/php/7.3/fpm/pool.d/nextcloud.conf
 
 Add the next content on the file
 ```conf
-  [nextcloud]
   listen = /var/run/nextcloud.sock
 
   listen.owner = nextcloud
@@ -132,14 +134,14 @@ Add the next content on the file
 Install cron
 
     apt install cron
-    nano /etc/cron.d/nextcloud
+    vim /etc/cron.d/nextcloud
 
 Add at end of file
 
     */5  *  *  *  * nextcloud php -f /var/www/nextcloud/cron.php
 
 ### Config PHP
-Open `/etc/php/7.3/fpm/php.ini`, click ctrl+w and write `memory_limit` press enter and modify 128 by 512.
+Open `/etc/php/7.3/fpm/php.ini`, modify `memory_limit` by : `512`.
 
     systemcl restart php7.3-fpm
 
@@ -156,15 +158,15 @@ Thank you Gwenael for sharing the script
 ```
 - create the next file `/var/backups/nextcloud/backup.sh` and add the next content :  
 ```bash
-#!/bin/sh
-cd /var/www/nextcloud/
+  #!/bin/sh
+  cd /var/www/nextcloud/
 
-php occ maintenance:mode --on
+  php occ maintenance:mode --on
 
-rsync -Aavx /var/www/nextcloud/ /var/backups/nextcloud/nextcloud-dirbkp_`date +"%Y%m%d"`/
-mysqldump --single-transaction  -u nextcloud -psecret nextcloud > /var/backups/nextcloud/nextcloud-sqlbkp_`date +"%Y%m%d"`.bak
+  rsync -Aavx /var/www/nextcloud/ /var/backups/nextcloud/nextcloud-dirbkp_`date +"%Y%m%d"`/
+  mysqldump --single-transaction  -u nextcloud -psecret nextcloud > /var/backups/nextcloud/nextcloud-sqlbkp_`date +"%Y%m%d"`.bak
 
-php occ maintenance:mode --off
+  php occ maintenance:mode --off
 ```
 
 - Change the mode and the owner of backup file and restart services
@@ -184,6 +186,7 @@ chmod +x /var/backups/nextcloud/backup.sh \
 To test the connexion to server, on windows, open `C:\Windows\System32\drivers\etc\hosts` and add the next line, change `192.168.20.149` by your ip :  
 ```
 	192.168.20.149  nextcloud.cpnv.ch
+    10.10.10.100  nextcloud.cpnv.local
 ```
 
 Open your WEB Browser and write the next URL : `nextcloud.cpnv.ch`.
@@ -191,10 +194,25 @@ Your browser ask to validate the unknow ssl certificate , validate and you can s
 
 - informations to use:
     * user: nextcloud
-    * password: [the nextcloud password you set in point 2](##2.-nextcloud-installation)
+    * password: `hello`
     * database user: nextcloudadmin
     * database passeword: Admin123
     * database name: nextcloud
     * database host: localhost
 
 To find errors or warnings on nextcloud, go to https://nextcloud.cpnv.ch/settings/admin/overview
+
+### POC
+Network Config
+- Show network card
+
+Ngnix
+- systemctl status nginx
+
+SQL
+- mysql
+
+Nextcloud
+- nextcloud.cpnv.local
+- nextcloud.cpnv.ch
+- nextcloud.cpnv.ch -> overview
